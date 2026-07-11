@@ -23,7 +23,7 @@ export class PdfService {
     try {
       this.pdfSourceSubject.next(url);
       this.loadingSubject.next(false);
-    } catch (error) {
+    } catch {
       this.errorSubject.next('Failed to load PDF');
       this.loadingSubject.next(false);
     }
@@ -38,7 +38,7 @@ export class PdfService {
         const pdfData = event.target?.result as string;
         this.pdfSourceSubject.next(pdfData);
         this.loadingSubject.next(false);
-      } catch (error) {
+      } catch {
         this.errorSubject.next('Failed to read PDF file');
         this.loadingSubject.next(false);
       }

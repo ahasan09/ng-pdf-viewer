@@ -12,7 +12,7 @@
         accept=".pdf"
         (change)="onFileSelected($event)"
         class="file-input"
-      />
+        />
     </div>
 
     <div class="url-section">
@@ -23,33 +23,39 @@
         [(ngModel)]="pdfUrl"
         placeholder="Enter PDF URL"
         class="url-input"
-      />
+        />
       <button (click)="loadFromUrl()" class="btn">Load</button>
     </div>
   </div>
 
   <div class="viewer-container">
-    <div *ngIf="loading$ | async" class="loading">
-      <p>Loading PDF...</p>
-    </div>
-
-    <div *ngIf="error$ | async as error" class="error">
-      <p>{{ error }}</p>
-    </div>
-
-    <div *ngIf="(pdfSource$ | async) as pdfSrc; else noPdf" class="pdf-viewer">
-      <ngx-extended-pdf-viewer
-        [src]="pdfSrc"
-        [useBrowserLocale]="true"
-        [showBorders]="true"
-      ></ngx-extended-pdf-viewer>
-    </div>
-
-    <ng-template #noPdf>
-      <div *ngIf="(loading$ | async) === false" class="placeholder">
-        <p>No PDF loaded. Upload a file or load from URL above.</p>
+    @if (loading$ | async) {
+      <div class="loading">
+        <p>Loading PDF...</p>
       </div>
-    </ng-template>
+    }
+
+    @if (error$ | async; as error) {
+      <div class="error">
+        <p>{{ error }}</p>
+      </div>
+    }
+
+    @if ((pdfSource$ | async); as pdfSrc) {
+      <div class="pdf-viewer">
+        <ngx-extended-pdf-viewer
+          [src]="pdfSrc"
+          [showBorders]="true"
+        ></ngx-extended-pdf-viewer>
+      </div>
+    } @else {
+      @if ((loading$ | async) === false) {
+        <div class="placeholder">
+          <p>No PDF loaded. Upload a file or load from URL above.</p>
+        </div>
+      }
+    }
+
   </div>
 
   <div class="navigation">

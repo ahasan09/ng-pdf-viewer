@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PdfService } from './services/pdf.service';
@@ -12,15 +12,15 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  private pdfService = inject(PdfService);
+
   title = 'PDF Viewer';
-  pdfUrl: string = '';
+  pdfUrl = '';
   pdfSource$ = this.pdfService.pdfSource$;
   loading$ = this.pdfService.loading$;
   error$ = this.pdfService.error$;
   currentPage$ = this.pdfService.currentPage$;
   pageCount$ = this.pdfService.pageCount$;
-
-  constructor(private pdfService: PdfService) {}
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
