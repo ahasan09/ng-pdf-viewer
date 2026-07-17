@@ -35,5 +35,5 @@ jobs:
         run: npm run test -- --watch=false --browsers=ChromeHeadless
 
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v7
         if: always()
